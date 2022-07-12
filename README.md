@@ -1,4 +1,4 @@
 # JavaScript Calculator
-code not live yet
+code live at : https://adrianytw.github.io/fcc-javascript-calculator
 
 ## rawr
