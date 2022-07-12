@@ -1,0 +1,43 @@
+#calculator {
+    display: grid;
+    align-items: stretch;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(6, 1fr) ;
+    grid-template-areas: 
+        "DP DP DP DP"
+        "AC AC AC DV"
+        "SV EI NI MT"
+        "FO FI SI ST"
+        "ON TW TH AD"
+        "ZR DC EQ EQ";
+    column-gap: 0.2rem;
+    row-gap: 0.2rem;
+
+    width: 20rem;
+    height: 30rem;
+    background: green;
+    padding: 1rem;
+}
+button {
+    font-size: xx-large;
+    /* border-radius: 0.7rem; */
+}
+#display { grid-area: DP;}
+#clear { grid-area: AC;}
+#divide { grid-area: DV;}
+#seven { grid-area: SV;}
+#eight { grid-area: EI;}
+#nine { grid-area: NI;}
+#multiply { grid-area: MT;}
+#four { grid-area: FO;}
+#five { grid-area: FI;}
+#six { grid-area: SI;}
+#subtract { grid-area: ST;}
+#one { grid-area: ON;}
+#two { grid-area: TW;}
+#three { grid-area: TH;}
+#add { grid-area: AD;}
+#zero { grid-area: ZR;}
+#decimal { grid-area: DC;}
+#equals { grid-area: EQ;}
+/* # { grid-area: ;} */
