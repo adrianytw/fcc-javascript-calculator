@@ -4,7 +4,8 @@ import Calculator from './calc/Calculator';
 function App() {
   return (
     <div className="App">
-      <h1>rawr</h1>
+      <h1>Le Calc</h1>
+      <h2>a Formula/Expression Logic calculator</h2>
       <Calculator />
     </div>
   );

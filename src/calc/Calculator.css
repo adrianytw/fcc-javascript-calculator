@@ -1,9 +1,17 @@
+:root {
+    /* CSS HEX */
+--roman-silver: #84828fff;
+--old-lavender: #6a687aff;
+--black-coral: #536271ff;
+--charcoal: #3e4c5eff;
+--prussian-blue: #2c3d55ff;
+}
 #calculator {
     display: grid;
     align-items: stretch;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(6, 1fr) ;
-    grid-template-areas: 
+    grid-template-areas:
         "DP DP DP DP"
         "AC AC AC DV"
         "SV EI NI MT"
@@ -13,16 +21,35 @@
     column-gap: 0.2rem;
     row-gap: 0.2rem;
 
+    height: 50vh;
     width: 20rem;
-    height: 30rem;
-    background: green;
+    background: var(--charcoal);
     padding: 1rem;
+}
+#display {
+    background-color: var(--roman-silver);
+    padding: 1rem;
+    grid-area: DP;
+    color: pink;
+    text-align: end;
 }
 button {
     font-size: xx-large;
+    background-color: var(--black-coral);
+    color: paleturquoise;
+    border-width: 1px;
     /* border-radius: 0.7rem; */
 }
-#display { grid-area: DP;}
+
+button:hover {
+    border-width: 3px;
+    border-radius: 1rem;
+    background-color: var(--old-lavender);
+}
+
+button:active {
+    background-color: var(--roman-silver);
+}
 #clear { grid-area: AC;}
 #divide { grid-area: DV;}
 #seven { grid-area: SV;}

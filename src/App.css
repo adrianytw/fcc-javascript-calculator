@@ -1,3 +1,11 @@
+:root {
+--roman-silver: #84828fff;
+--old-lavender: #6a687aff;
+--black-coral: #536271ff;
+--charcoal: #3e4c5eff;
+--prussian-blue: #2c3d55ff;
+}
+
 .App {
   text-align: center;
 
@@ -5,8 +13,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  
+
   height: 100vh;
 
-  background-color: darkolivegreen;
+  background-color: var(--prussian-blue);
+  color: wheat;
 }
