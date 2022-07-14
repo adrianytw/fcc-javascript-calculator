@@ -1,8 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+import { create, all } from 'mathjs'
+
+const config = { }
+const math = create(all, config)
+
 const initialState = {
-    display: "",
-    total: 0,
+    formula: "",
+    display: 0,
 }
 
 export const calcSlice = createSlice({
@@ -10,19 +15,57 @@ export const calcSlice = createSlice({
     initialState,
     reducers: {
         clear: (state) => {
-            state.display = "0"
-            state.total =  0
+            state.formula = ""
+            state.display =  0
         },
-        newNum: (state, action) => {
-            state.display += action.payload.toString()
-            state.total = parseInt(state.display)
+        input: (state, action) => {
+            const newInput = action.payload.toString()
+            const operators = [
+                '+',
+                '-',
+                '*',
+                '/',
+            ]
+            if (newInput.match(/\d/) !== null) { //not digit
+
+            }
+            if (state.formula.includes("=")) {
+                state.formula = state.display + newInput
+                state.display = newInput
+                return state
+            }
+            if (state.formula.slice(0) == 0 ) { // to remove first letter 0
+                state.formula = newInput
+                state.display = newInput
+                return state
+            }
+            if (operators.includes(state.display[0])) {
+                state.formula += newInput
+                state.display = newInput
+                return state
+            }
+            state.formula += newInput
+            state.display += newInput
+            return state
         },
-        subtract: (state, action) => {},
-        multiply: (state, action) => {},
-        divide: (state, action) => {},
+        evaluate: (state) => {
+            // const regex = /^\d+([+\-*/]\d+)+/gm
+            // console.log(state.formula.match(regex))
+            // if (state.formula.match(regex) !== null) {
+            //     const ans = math.evaluate(state.formula)
+            //     state.display = ans
+            //     state.formula += `=${ans}`
+            // }
+            if (state.formula.slice(-1).match(/[+\-*\/]/)) {
+                state.formula = state.formula.slice(0, -1)
+            }
+            const ans = math.evaluate(state.formula)
+            state.display = ans
+            state.formula += `=${ans}`
+        },
     }
 })
 
-export const { newNum, subtract, multiply, divide, clear } = calcSlice.actions
+export const { input, newNum, clear, evaluate } = calcSlice.actions
 
 export default calcSlice.reducer

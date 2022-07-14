@@ -1,12 +1,12 @@
 import './Calculator.css'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { newNum, clear } from '../features/calcSlice'
-import { isCompositeComponent } from 'react-dom/test-utils'
+import { input, clear, evaluate } from '../features/calcSlice'
+// import { isCompositeComponent } from 'react-dom/test-utils'
 
 const Calculator = () => {
 
-    const { total, display } = useSelector( state => state.calc )
+    const { display, formula } = useSelector( state => state.calc )
     const dispatch = useDispatch()
 
     const numKeys = {
@@ -20,35 +20,36 @@ const Calculator = () => {
         eight: '8',
         nine: '9',
         zero: '0',
+        add: "+",
+        subtract: "-",
+        multiply: "*",
+        divide: "/",
+        decimal: ".",
     }
 
     return (
         <div id='calculator'>
-                
             <div id='displayArea'>
-                <h2 id='idk'>{display}</h2>
-                <h2 id='display'>{total}</h2>
+                <h2 id='idk'>{formula}</h2>
+                <h2 id='display'>{display}</h2>
             </div>
             <div id='keys'>
                 <button id='equals'
-                    onClick={ () => dispatch(newNum(1))}>=</button>
+                    onClick={ () => dispatch(evaluate())}>=</button>
                 {
-                    Object.keys(numKeys).map( (key, index) => {
+                    Object.keys(numKeys).map( (key) => {
                         const data = numKeys[key]
-                        console.log(key, data)
                         return (
-                            <button id={key}
-                                onClick={ () => dispatch(newNum(data))}>{data}</button>
+                            <button
+                                id={key}
+                                key={key}
+                                onClick={ () => dispatch(input(data))}>{data}</button>
                         )
                     })
                 }
-                <button id='decimal'>.</button>
                 <button id='clear'
                     onClick={ () => dispatch(clear())}>AC</button>
-                <button id='add'>+</button>
-                <button id='subtract'>-</button>
-                <button id='multiply'>*</button>
-                <button id='divide'>/</button>
+
             </div>
         </div>
     )
