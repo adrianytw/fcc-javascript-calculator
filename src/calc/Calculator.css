@@ -7,42 +7,52 @@
 --prussian-blue: #2c3d55ff;
 }
 #calculator {
-    display: grid;
-    align-items: stretch;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(6, 1fr) ;
-    grid-template-areas:
-        "DP DP DP DP"
-        "AC AC AC DV"
-        "SV EI NI MT"
-        "FO FI SI ST"
-        "ON TW TH AD"
-        "ZR DC EQ EQ";
-    column-gap: 0.2rem;
-    row-gap: 0.2rem;
-
+    display: flex;
+    flex-direction: column;
     height: 50vh;
     width: 20rem;
     background: var(--charcoal);
     padding: 1rem;
 }
-#display {
+#keys {
+    display: grid;
+    height: 100%;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr) ;
+    grid-template-areas:
+    "AC AC AC DV"
+    "SV EI NI MT"
+    "FO FI SI ST"
+    "ON TW TH AD"
+        "ZR DC EQ EQ";
+        column-gap: 0.2rem;
+        row-gap: 0.2rem;
+}
+
+#displayArea {
     background-color: var(--roman-silver);
-    padding: 1rem;
     grid-area: DP;
+    padding: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     color: pink;
     text-align: end;
+    /* height: 5rem; */
 }
+#display, #idk {
+    height: 2rem;
+    margin: 0px;
+}
+
 button {
     font-size: xx-large;
     background-color: var(--black-coral);
     color: paleturquoise;
-    border-width: 1px;
+    border-width: 0.1rem;
     /* border-radius: 0.7rem; */
 }
 
 button:hover {
-    border-width: 3px;
     border-radius: 1rem;
     background-color: var(--old-lavender);
 }

@@ -19,3 +19,11 @@
   background-color: var(--prussian-blue);
   color: wheat;
 }
+
+#title {
+  margin-bottom: 0.5rem;
+}
+#subtitle {
+  margin-top: 0px;
+  opacity: 70%;
+}

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    display: "0",
+    display: "",
     total: 0,
 }
 
@@ -13,8 +13,9 @@ export const calcSlice = createSlice({
             state.display = "0"
             state.total =  0
         },
-        add: (state, action) => {
+        newNum: (state, action) => {
             state.display += action.payload.toString()
+            state.total = parseInt(state.display)
         },
         subtract: (state, action) => {},
         multiply: (state, action) => {},
@@ -22,6 +23,6 @@ export const calcSlice = createSlice({
     }
 })
 
-export const { add, subtract, multiply, divide, clear } = calcSlice.actions
+export const { newNum, subtract, multiply, divide, clear } = calcSlice.actions
 
 export default calcSlice.reducer
