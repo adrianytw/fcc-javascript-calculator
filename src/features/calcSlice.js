@@ -19,7 +19,7 @@ export const calcSlice = createSlice({
             state.display =  0
         },
         input: (state, action) => {
-            const newInput = action.payload.toString()
+            const newInput = action.payload
             const operators = [
                 '+',
                 '-',
@@ -27,24 +27,10 @@ export const calcSlice = createSlice({
                 '/',
                 '.',
             ]
-            if (newInput.match(/\d/) === null) { // is operator
-                if (newInput === '-') {
-                    if (operators.includes(state.formula.slice(-2, -1))
-                            && operators.includes(state.formula.slice(-1))) { // =2 not operator
-                        return state
-                    }
-                }
-                const formulaLastLetter = state.formula.slice(-1)
-                if ( operators.includes(formulaLastLetter)) { // last letter is operator = true
-                    state.formula = state.formula.replace(/.$/, newInput);
-                    state.display = newInput
-                    return state
-                }
-                state.formula += newInput
-                state.display = newInput
-                return state
-            }
-            if (state.formula.includes("=")) {
+            const formulaRegex = /^[1-9](?:\d)*(?:\.\d+)?(?:[+\-*/][-]?\d*(?:\.\d+)?)*/
+            const displayRegex = /(^(^[1-9](?:\d)*\.?(?:\d+)?)$)|^[+\-*/]$/
+            
+            if (state.formula.includes("=")) { // if formula has =
                 if (!operators.includes(newInput)) {
                     state.formula = newInput
                     state.display = newInput
@@ -54,36 +40,57 @@ export const calcSlice = createSlice({
                 state.display = newInput
                 return state
             }
-            if (state.formula.slice(0) === '0' 
-                    || state.display === 0 ) { // to remove first 0
-                console.log("hi")
+            if (state.display === 0) { // for first zero case
                 state.formula = newInput
                 state.display = newInput
                 return state
             }
-            if (operators.includes(state.display[0])) {
-                state.formula += newInput
-                state.display = newInput
-                return state
+            if (operators.includes(newInput)) {// handle operators
+                if (newInput == '.' && state.display.includes('.')) {
+                    return state
+                }
+                if ((newInput == "-") && !operators.includes(state.formula.slice(-2, -1))) { //handle -
+                    state.formula += newInput
+                    state.display = newInput
+                    return state
+                }
+                if (operators.includes(state.display)) { // display has operators
+                    if (operators.includes(state.formula.slice(-2, -1))) { // second last not operator
+                        state.formula = state.formula.slice(0,-2) + newInput
+                        state.display = newInput
+                        return state
+                    }
+                    state.formula = state.formula.slice(0,-1) +  newInput
+                    state.display = newInput
+                    return state
+                }
             }
-            state.formula += newInput
-            state.display += newInput
+            // normal case
+            let buffForm = state.formula + newInput
+            let buffDisp = state.display + newInput
+            if (buffForm.match(formulaRegex) !== null) {
+                state.formula += newInput
+            }
+            if (buffDisp.match(displayRegex) !== null) {
+                state.display += newInput
+            } else {
+                state.display = newInput
+            }
             return state
         },
         evaluate: (state) => {
-            // const regex = /^\d+([+\-*/]\d+)+/gm
-            // console.log(state.formula.match(regex))
-            // if (state.formula.match(regex) !== null) {
-            //     const ans = math.evaluate(state.formula)
-            //     state.display = ans
-            //     state.formula += `=${ans}`
-            // }
+            // const evalRegex = /^\d(?:\d)*(?:\.\d+)?(?:[+\-*\/][-]?\d+(?:\.\d+)?)*/
             if (state.formula.slice(-1).match(/[+\-*/]/)) {
                 state.formula = state.formula.slice(0, -1)
             }
-            const ans = math.evaluate(state.formula)
-            state.display = ans
-            state.formula += `=${ans}`
+            try {
+                const ans = math.evaluate(state.formula)
+                state.display = ans
+                state.formula += `=${ans}`
+            } catch (e) {
+                state.formula = 'ERROR'
+                state.display = 0
+            } 
         },
     }
 })
