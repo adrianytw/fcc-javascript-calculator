@@ -25,16 +25,38 @@ export const calcSlice = createSlice({
                 '-',
                 '*',
                 '/',
+                '.',
             ]
-            if (newInput.match(/\d/) !== null) { //not digit
-
+            if (newInput.match(/\d/) === null) { // is operator
+                if (newInput === '-') {
+                    if (operators.includes(state.formula.slice(-2, -1))
+                            && operators.includes(state.formula.slice(-1))) { // =2 not operator
+                        return state
+                    }
+                }
+                const formulaLastLetter = state.formula.slice(-1)
+                if ( operators.includes(formulaLastLetter)) { // last letter is operator = true
+                    state.formula = state.formula.replace(/.$/, newInput);
+                    state.display = newInput
+                    return state
+                }
+                state.formula += newInput
+                state.display = newInput
+                return state
             }
             if (state.formula.includes("=")) {
+                if (!operators.includes(newInput)) {
+                    state.formula = newInput
+                    state.display = newInput
+                    return state
+                }
                 state.formula = state.display + newInput
                 state.display = newInput
                 return state
             }
-            if (state.formula.slice(0) == 0 ) { // to remove first letter 0
+            if (state.formula.slice(0) === '0' 
+                    || state.display === 0 ) { // to remove first 0
+                console.log("hi")
                 state.formula = newInput
                 state.display = newInput
                 return state
@@ -56,7 +78,7 @@ export const calcSlice = createSlice({
             //     state.display = ans
             //     state.formula += `=${ans}`
             // }
-            if (state.formula.slice(-1).match(/[+\-*\/]/)) {
+            if (state.formula.slice(-1).match(/[+\-*/]/)) {
                 state.formula = state.formula.slice(0, -1)
             }
             const ans = math.evaluate(state.formula)
